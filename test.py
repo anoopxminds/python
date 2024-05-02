@@ -1,5 +1,7 @@
 import sys
 
+# Print system version
+
 print("hello world");
 print(sys.version);
 
@@ -11,6 +13,7 @@ print(type(y));
 
 x = "Test function";
 
+# Test funtion 
 
 def myfun():
     x = "new function";
