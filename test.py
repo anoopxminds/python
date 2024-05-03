@@ -21,11 +21,15 @@ print("python with " + x);
 
 print(myfun())
 
-# Print table number
 
-n=int(input("Enter the number table for : "))
-for i in range(10):
-    print(n, "x",i, "=", n*i) 
+#Global variable
+
+def fun():
+    print("Print inside function with :", s);
+
+s = "test data";
+fun();
+print("Print outside with : ", s);    
 
 
 
