@@ -55,6 +55,18 @@ from math import pi
 
 print(pi);
 
+# optional_params
+
+list = {"Bread": 1, "Milk": 2, "Cake": 3, "Chocolate": 4, "butter": 5}
+def show_list():
+    for item_name,quantity in list.items:
+        print(f"{quantity} x {item_name}");
+
+show_list();
+
+
+
+
 
 
 
