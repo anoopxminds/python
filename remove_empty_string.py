@@ -6,7 +6,7 @@ string_list = ["Python", "Java", "", "PHP", ""]
 
 refined_list = [];
 for i in string_list:
-    if (i != ""):
+    if i:
         refined_list.append(i);
 print(refined_list);
 
