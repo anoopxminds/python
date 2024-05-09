@@ -19,13 +19,13 @@ empl_dict = {
 
 print("Dictionary list : ", empl_dict)
 
-#Remiving salary 
+#Removing salary 
 
 removed_key = "salary"
 
 print("The removing key is : " + str(removed_key))
 
-#Remiving key and value 
+#Removing key and value 
 
 removed_value = empl_dict.pop(removed_key, "Key is not found!")
 
