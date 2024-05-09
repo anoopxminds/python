@@ -6,3 +6,7 @@ set2 = {30, 40, 50, 60, 70}
 new_set = set1.symmetric_difference(set2)
 
 print(f"After update {new_set}")
+
+common_ele = set1.intersection(set2)
+
+print(f"Common elements {common_ele}")
