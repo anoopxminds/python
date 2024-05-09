@@ -14,3 +14,8 @@ updated_list = test_string.replace(to_replace, with_item)
 modified_list = updated_list.split()     
 
 print(modified_list)
+
+
+languages[1] = with_item;
+
+print(languages)
