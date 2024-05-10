@@ -15,7 +15,7 @@ tuple_list = ('p','y','t','h','o','n')
 
 print(type(tuple_list))
 
-string_from_tuple = ','.join(tuple_list)
+string_from_tuple = "".join(tuple_list)
 
 print(type(string_from_tuple))
 
@@ -32,5 +32,18 @@ new_list = [(ele, next(splitted_string)) for ele in splitted_string]
 
 print(new_list)
 
+print("=========== Defferent way =============")
 
+input_string1 ="Python is the popular programming language."
 
+splitted_string1 = input_string1.split()
+
+res = []
+
+for i, word in enumerate(splitted_string1):
+    if i % 2 == 0:
+        res.append((word, splitted_string1[i+1]))
+
+#printing result 
+
+print("List after String to tuple conversion : " + str(res))
