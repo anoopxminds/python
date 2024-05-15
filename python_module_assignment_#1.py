@@ -20,7 +20,8 @@ random_string = "".join(random.choices(string.ascii_uppercase + string.digits, k
 
 print(f"Random generated string is : {str(random_string)}")
 
-#Write a Python program to a random value between two integers (inclusive) 
+#Write a Python program to a random value between two integers (inclusive) and a random multiple of 7 between 0 and 70. Use random.randint()  
 
+print(random.randint(0, 10))
 print(f"random multiple of 7 between 0 and 70 : {random.randint(0, 10) * 7} ")
 
