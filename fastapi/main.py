@@ -1,5 +1,7 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Body
 from fastapi.encoders import jsonable_encoder
+from uuid import UUID
+from datetime import datetime, time, timedelta
 import uvicorn
 from enum import Enum
 from pydantic import BaseModel
@@ -93,7 +95,26 @@ async def update_item(item_id:str, item:Item):
     items[item_id] = jsonable_encoder(updated_item)
     return updated_item
     
-    
+
+@app.put("/item/{item_id}")
+async def put_items(
+    item_id : UUID,
+    start_date_time: Annotated[datetime, Body()],
+    end_date_time: Annotated[datetime, Body()],
+    after_process: Annotated[timedelta, Body()],
+    repeat_at: Annotated[Union[time, None], Body()] = None
+    ):
+    start_process = start_date_time + after_process
+    duration =    end_date_time - start_process
+    return {
+        "item_id": item_id,
+        "start_date_time": start_date_time,
+        "end_date_time": end_date_time,
+        "process_after": after_process,
+        "repeat_at": repeat_at,
+        "start_process": start_process,
+        "duration": duration
+    }
 
 
 
