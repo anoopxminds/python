@@ -116,7 +116,9 @@ async def put_items(
         "duration": duration
     }
 
+#Cookie and header parameters
+
 
 
 if __name__ == "__main__":
-    uvicorn.run('main:app', host='localhost', port=8080, reload=True)
+    uvicorn.run('sql_app.main:app', host='localhost', port=8080, reload=True)
