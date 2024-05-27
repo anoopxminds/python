@@ -2,10 +2,7 @@ from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-
-from . import crud
-
-from . import models, schemas
+from . import crud, models, schemas
 from .database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -53,3 +50,13 @@ def create_item_for_user(
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
+
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)):
+    return crud.updateItem(db=db, item=item, item_id= item_id)
+
+@app.delete("/items/{item_id}")
+async def delete_item(item_id: int, db: Session = Depends(get_db)):
+    print(item_id)
+    return crud.deleteItem(db=db, item_id= item_id)
+    

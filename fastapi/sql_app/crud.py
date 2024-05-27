@@ -1,8 +1,6 @@
 from sqlalchemy.orm import Session
 
-from . import models
-
-from . import schemas
+from . import models, schemas
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
@@ -10,7 +8,7 @@ def get_user(db: Session, user_id: int):
 def get_user_by_email(db: Session, email: str):
     return db.query(models.User).filter(models.User.email == email).first()
 
-def getUsers(db:Session, skip: int = 0, limit: int = 100):
+def get_users(db:Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
 def create_user(db:Session, user: schemas.UserCreate):
@@ -30,3 +28,16 @@ def create_user_item(db:Session, item:schemas.ItemCreate, user_id:int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def updateItem(db:Session, item: schemas.ItemCreate, item_id: int):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    db_item.title = item.title
+    db_item.description = item.description
+    db.commit()
+    return {"message": "Item updated successfully"}
+
+def deleteItem(db: Session, item_id: int):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    db.delete(db_item)
+    db.commit()
+    return {"message": "Item deleted successfully"}

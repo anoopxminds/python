@@ -1,5 +1,6 @@
+from typing import List, Union, Optional
+
 from pydantic import BaseModel
-from typing import Optional, List
 
 class ItemBase(BaseModel):
     title:str
