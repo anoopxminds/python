@@ -1,9 +1,11 @@
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
+from typing_extensions import Annotated
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -16,6 +18,39 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+        
+def fake_hash_password(password: str):
+    return password + "notreallyhashed"
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+@app.post("/token")
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db:Session = Depends(get_db)):
+    db_user = crud.get_user_by_username(db, username=form_data.username)
+    if not db_user:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
+    hashed_password = fake_hash_password(form_data.password)
+    if not hashed_password == db_user.hashed_password:
+         raise HTTPException(status_code=400, detail="Incorrect username or password")
+    return {"access_token": db_user.username, "token_type": "bearer"}
+
+@app.get("/users/me")
+async def read_users_me(
+    current_user: Annotated[schemas.User, Depends(get_db)], token: Annotated[str, Depends(oauth2_scheme), ],  db:Session = Depends(get_db)
+):
+    db_user = crud.get_user_by_username(db, username = token)
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    if db_user.is_active:
+        return db_user
+    raise HTTPException(status_code=400, detail="Inactive user")
+           
         
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
